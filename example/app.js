@@ -9,7 +9,7 @@ var sms = smstest.createSMSDialog();
 if (!sms.isSupported()) {
   alert("Can't send text");
 } else {
-  sms.toRecipients = ['8585551212'];
+  sms.toRecipients = ['5678309'];
   sms.messageBody = 'This is a text message';
   sms.open();
 }

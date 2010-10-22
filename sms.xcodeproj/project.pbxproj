@@ -30,6 +30,7 @@
 		280BD746126433A500A31860 /* TiUISMSDialogProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 280BD744126433A500A31860 /* TiUISMSDialogProxy.m */; };
 		AA747D9F0F9514B9006C5449 /* TiSms_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* TiSms_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
+		DA94D1D11271109100257D78 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA94D1D01271109100257D78 /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		AA747D9E0F9514B9006C5449 /* TiSms_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiSms_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libTiSms.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTiSms.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA94D1D01271109100257D78 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
+				DA94D1D11271109100257D78 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
+				DA94D1D01271109100257D78 /* MessageUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -229,6 +233,7 @@
 				GCC_PREFIX_HEADER = TiSms_Prefix.pch;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = TiSms;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -244,6 +249,7 @@
 				GCC_PREFIX_HEADER = TiSms_Prefix.pch;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = TiSms;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};

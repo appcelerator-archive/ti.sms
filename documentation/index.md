@@ -1,8 +1,8 @@
-# sms Module
+# ti.sms Module
 
 ## Description
 
-TODO: Enter your module description here
+Allows the sending of SMS messages from an iPhone device.  iOS 4.0 and later only.
 
 ## Accessing the sms Module
 
@@ -14,26 +14,20 @@ The sms variable is a reference to the Module object.
 
 ## Reference
 
-TODO: If your module has an API, you should document
-the reference here.
+### ti.sms.createSMSDialog
 
-### ___PROJECTNAMEASIDENTIFIER__.function
-
-TODO: This is an example of a module function.
-
-### ___PROJECTNAMEASIDENTIFIER__.property
-
-TODO: This is an example of a module property.
+Creates and returns an [SMSDialog][] object.
 
 ## Usage
 
-TODO: Enter your usage example here
+See example
 
 ## Author
 
-TODO: Enter your author name, email and other contact
-details you want to share here. 
+Jeff Haynie <jhaynie@appcelerator.com>, Appcelerator Inc.
 
 ## License
 
 TODO: Enter your license/legal information here.
+
+[SMSDialog]: smsdialog.html
