@@ -14,4 +14,4 @@ name: sms
 moduleid: ti.sms
 guid: 8b8759be-a92a-4c44-a6d2-3e08393bfc36
 platform: iphone
-minsdk: 1.4.1.1
+minsdk: 1.6.0
