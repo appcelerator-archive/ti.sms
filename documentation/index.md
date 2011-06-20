@@ -1,22 +1,20 @@
-# ti.sms Module
+# Ti.SMS Module
 
 ## Description
 
 Allows the sending of SMS messages from an iPhone device.  iOS 4.0 and later only.
 
-## Accessing the sms Module
+## Accessing the SMS Module
 
 To access this module from JavaScript, you would do the following:
 
-	var sms = require("ti.sms");
+	Titanium.SMS = Ti.SMS = require("ti.sms");
 
-The sms variable is a reference to the Module object.	
+## Functions
 
-## Reference
+### Ti.SMS.createSMSDialog
 
-### ti.sms.createSMSDialog
-
-Creates and returns an [SMSDialog][] object.
+Creates and returns an [Ti.SMS.SMSDialog][] object.
 
 ## Usage
 
@@ -28,6 +26,6 @@ Jeff Haynie <jhaynie@appcelerator.com>, Appcelerator Inc.
 
 ## License
 
-TODO: Enter your license/legal information here.
+Copyright(c) 2010-2011 by Appcelerator, Inc. All Rights Reserved. Please see the LICENSE file included in the distribution for further details.
 
-[SMSDialog]: smsdialog.html
+[Ti.SMS.SMSDialog]: smsdialog.html
