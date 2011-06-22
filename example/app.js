@@ -1,15 +1,32 @@
-var window = Ti.UI.createWindow({ backgroundColor:'white' });
-
+var window = Ti.UI.createWindow({
+    backgroundColor: 'white'
+});
 window.open();
 
-var smstest = require('ti.sms');
+Titanium.SMS = Ti.SMS = require('ti.sms');
 
-var sms = smstest.createSMSDialog();
-
-if (!sms.isSupported()) {
-  alert("Can't send text");
-} else {
-  sms.toRecipients = ['5678309'];
-  sms.messageBody = 'This is a text message';
-  sms.open();
-}
+var sms = Ti.SMS.createSMSDialog({
+    animated: true
+});
+sms.barColor = 'black';
+sms.toRecipients = [
+    '5678309' // who should receive the text? put their numbers here!
+];
+sms.messageBody = 'This is a text message.';
+sms.addEventListener('complete', function(evt) {
+    if (evt.success) {
+        alert('SMS sent!');
+    }
+    else {
+        switch (evt.result) {
+            case Ti.SMS.CANCELLED:
+                alert('User cancelled SMS!');
+                break;
+            case Ti.SMS.FAILED:
+            default:
+                alert(evt.error);
+                break;
+        }
+    }
+});
+sms.open();
