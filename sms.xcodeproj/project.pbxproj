@@ -225,7 +225,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					armv6,
-					armv7,
+					"$(ARCHS_STANDARD_32_BIT)",
 				);
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/TiSms.dst;
@@ -248,7 +248,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					armv6,
-					armv7,
+					"$(ARCHS_STANDARD_32_BIT)",
 				);
 				DSTROOT = /tmp/TiSms.dst;
 				GCC_MODEL_TUNING = G5;
@@ -266,7 +266,7 @@
 			buildSettings = {
 				ARCHS = (
 					armv6,
-					armv7,
+					"$(ARCHS_STANDARD_32_BIT)",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -285,7 +285,7 @@
 			buildSettings = {
 				ARCHS = (
 					armv6,
-					armv7,
+					"$(ARCHS_STANDARD_32_BIT)",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
