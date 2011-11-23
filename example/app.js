@@ -3,9 +3,9 @@ var window = Ti.UI.createWindow({
 });
 window.open();
 
-Titanium.SMS = Ti.SMS = require('ti.sms');
+var SMS = require('ti.sms');
 
-var sms = Ti.SMS.createSMSDialog({
+var sms = SMS.createSMSDialog({
     animated: true
 });
 sms.barColor = 'black';
@@ -19,10 +19,10 @@ sms.addEventListener('complete', function(evt) {
     }
     else {
         switch (evt.result) {
-            case Ti.SMS.CANCELLED:
+            case SMS.CANCELLED:
                 alert('User cancelled SMS!');
                 break;
-            case Ti.SMS.FAILED:
+            case SMS.FAILED:
             default:
                 alert(evt.error);
                 break;

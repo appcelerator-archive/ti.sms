@@ -8,7 +8,7 @@ Allows the sending of SMS messages from an iPhone device.  iOS 4.0 and later onl
 
 To access this module from JavaScript, you would do the following:
 
-	Titanium.SMS = Ti.SMS = require("ti.sms");
+	var SMS = require('ti.sms');
 
 ## Functions
 
