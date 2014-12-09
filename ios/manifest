@@ -2,7 +2,9 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 1.0
+version: 1.1.0
+apiversion: 2
+architectures: armeabi armeabi-v7a x86
 description: My module
 author: Jeff Haynie
 license: Appcelerator Commercial License
@@ -14,4 +16,4 @@ name: sms
 moduleid: ti.sms
 guid: 8b8759be-a92a-4c44-a6d2-3e08393bfc36
 platform: iphone
-minsdk: 3.0.0.GA
+minsdk: 3.4.1
