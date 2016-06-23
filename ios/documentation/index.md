@@ -23,11 +23,11 @@ Creates and returns an [Ti.SMS.SMSDialog][] object.
 
 ## Usage
 
-See example
+See `example/app.js`
 
 ## Author
 
-Jeff Haynie
+Jeff Haynie, Hans Knoechel
 
 ## Module History
 
@@ -39,6 +39,6 @@ Please direct all questions, feedback, and concerns to [info@appcelerator.com](m
 
 ## License
 
-Copyright(c) 2010-2011 by Appcelerator, Inc. All Rights Reserved. Please see the LICENSE file included in the distribution for further details.
+Copyright(c) 2010-2016 by Appcelerator, Inc. All Rights Reserved. Please see the LICENSE file included in the distribution for further details.
 
 [Ti.SMS.SMSDialog]: smsdialog.html
