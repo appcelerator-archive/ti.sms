@@ -1,32 +1,51 @@
-var window = Ti.UI.createWindow({
-    backgroundColor: 'white'
+var win = Ti.UI.createWindow({
+    backgroundColor: "#fff"
 });
-window.open();
 
-var SMS = require('ti.sms');
-
-var sms = SMS.createSMSDialog({
-    animated: true
+var btn = Ti.UI.createButton({
+    title: "Show SMS Dialog!"
 });
-sms.barColor = 'black';
-sms.toRecipients = [
-    '5678309' // who should receive the text? put their numbers here!
-];
-sms.messageBody = 'This is a text message.';
-sms.addEventListener('complete', function(evt) {
-    if (evt.success) {
-        alert('SMS sent!');
+
+btn.addEventListener("click", function() {
+    showSMSDialog();
+});
+
+win.add(btn);
+win.open();
+
+/**
+ *  Shows the native SMS dialog
+ **/
+function showSMSDialog() {
+    var SMS = require('ti.sms');
+    
+    if (!SMS.canSendText()) {
+        Ti.API.error("This device cannot send SMS messages!");
+        return;
     }
-    else {
-        switch (evt.result) {
-            case SMS.CANCELLED:
-                alert('User cancelled SMS!');
-                break;
-            case SMS.FAILED:
-            default:
-                alert(evt.error);
-                break;
+
+    var SMSDialog = SMS.createSMSDialog({
+        animated: true,
+        barColor: "black",
+        toRecipients: ["1234567890", "0987654321"],
+        subject: "What's up?",
+        messageBody: "Titanium rocks!"
+    });
+
+    SMSDialog.addEventListener('complete', function(e) {
+        if (e.success) {
+            alert('SMS sent!');
+        } else {
+            switch (e.result) {
+                case SMS.CANCELLED:
+                    alert('User cancelled SMS!');
+                    break;
+                case SMS.FAILED:
+                default:
+                    alert(e.error);
+            }
         }
-    }
-});
-sms.open();
+    });
+
+    SMSDialog.open();
+}
