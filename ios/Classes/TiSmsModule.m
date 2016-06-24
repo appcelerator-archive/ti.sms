@@ -36,8 +36,26 @@
 
 #pragma Public APIs
 
--(TiSmsSMSDialogProxy*)createSMSDialog:(id)args {
-    return [[[TiSmsSMSDialogProxy alloc] _initWithPageContext:[self pageContext]] autorelease];
+- (id)isSupported:(id)unused
+{
+    DEPRECATED_REPLACED(@"Ti.SMS.isSupported", @"2.0.0", @"Ti.SMS.canSendtext");
+    
+    return [self canSendText:unused];
+}
+
+- (id)canSendText:(id)unused
+{
+    return NUMBOOL([MFMessageComposeViewController canSendText]);
+}
+
+- (id)canSendSubject:(id)unused
+{
+    return NUMBOOL([MFMessageComposeViewController canSendSubject]);
+}
+
+- (id)canSendAttachments:(id)unused
+{
+    return NUMBOOL([MFMessageComposeViewController canSendAttachments]);
 }
 
 @end

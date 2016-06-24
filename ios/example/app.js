@@ -19,18 +19,29 @@ win.open();
 function showSMSDialog() {
     var SMS = require('ti.sms');
     
-    if (!SMS.canSendText()) {
-        Ti.API.error("This device cannot send SMS messages!");
-        return;
-    }
-
     var SMSDialog = SMS.createSMSDialog({
-        animated: true,
         barColor: "black",
         toRecipients: ["1234567890", "0987654321"],
         subject: "What's up?",
-        messageBody: "Titanium rocks!"
+        messageBody: "Titanium rocks! 🔥"
     });
+        
+    if (!SMS.canSendText()) {
+        Ti.API.error("Device cannot send SMS!");
+        return;
+    }
+    
+    if (!SMS.canSendSubject()) {
+        Ti.API.error("Device cannot send subject!");
+        return;
+    }
+    
+    if (!SMS.canSendAttachments()) {
+        Ti.API.error("Device cannot send attachments!");
+        return;
+    } else {
+        SMSDialog.addAttachments([Ti.Filesystem.getFile(Ti.Filesystem.getResourcesDirectory(), "KS_nav_ui.png").read()])
+    }
 
     SMSDialog.addEventListener('complete', function(e) {
         if (e.success) {
@@ -47,5 +58,7 @@ function showSMSDialog() {
         }
     });
 
-    SMSDialog.open();
+    SMSDialog.open({
+        animated: true
+    });
 }

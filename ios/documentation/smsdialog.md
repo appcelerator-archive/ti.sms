@@ -4,23 +4,27 @@
 
 An SMS dialog that can be shown to the user.
 
-## Functions
+## Methods
 
 ### open
 
 Opens a new SMS message to send. Takes a number of properties explained below.
 
+### addAttachments([array])
+
+The message attachments. Must be a TiBlob.
+
 ## Properties
 
-### Ti.SMS.SMSDialog.SENT
+### Ti.SMS.SENT
 
 Constant indicating the message was sent.
 
-### Ti.SMS.SMSDialog.CANCELLED
+### Ti.SMS.CANCELLED
 
 Constant indicating the message send was cancelled.
 
-### Ti.SMS.SMSDialog.FAILED
+### Ti.SMS.FAILED
 
 Constant indicating the message send failed.
 
@@ -31,15 +35,11 @@ separators.
 
 ### Ti.SMS.SMSDialog.messageBody[string]
 
-The message of the body.
+The message of the SMS message.
 
 ### Ti.SMS.SMSDialog.subject[string]
 
-The subject of the body.
-
-### Ti.SMS.SMSDialog.attachments[array]
-
-The message attachments of the body. Must be a TiBlob.
+The subject of the SMS message.
 
 ### Ti.SMS.SMSDialog.barColor[object]
 
@@ -64,6 +64,6 @@ Returns a boolean to indicate if the user can send attachments.
 An event sent upon completion or failure of sending the message.  Event dictionary
 contains the properties:
 
-* result[int]: One of _Ti.SMS.SMSDialog.SENT_, _Ti.SMS.SMSDialog.CANCELLED_, _Ti.SMS.SMSDialog.FAILED_
+* result[int]: One of _Ti.SMS.SENT_, _Ti.SMS.CANCELLED_, _Ti.SMS.FAILED_
 * success[boolean]: true if the send succeeded
 * error[string]: Only in the case of an error; the error message.

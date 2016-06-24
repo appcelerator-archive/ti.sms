@@ -5,11 +5,10 @@
 #import "TiProxy.h"
 #import <MessageUI/MessageUI.h>
 
-@interface TiSmsSMSDialogProxy : TiProxy<MFMessageComposeViewControllerDelegate>
+@interface TiSmsSMSDialogProxy : TiProxy<MFMessageComposeViewControllerDelegate> {
+    MFMessageComposeViewController *smsDialog;
+}
 
-- (id)canSendText:(id)unused;
-- (id)canSendSubject:(id)unused;
-- (id)canSendAttachments:(id)unused;
 - (void)open:(id)args;
 
 @end

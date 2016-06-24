@@ -8,33 +8,87 @@
 #import "TiUtils.h"
 #import "TiApp.h"
 
+#define ENSURE_SMS_SUPPORT \
+if (![MFMessageComposeViewController canSendText]) { \
+    DebugLog(@"[ERROR] This device cannot send SMS messages"); \
+}\
+
 @implementation TiSmsSMSDialogProxy
 
-- (id)isSupported:(id)unused
+- (MFMessageComposeViewController*)smsDialog
 {
-    DEPRECATED_REPLACED(@"Ti.SMS.isSupported", @"2.0.0", @"Ti.SMS.canSendtext");
+    if (smsDialog == nil) {
+        smsDialog = [MFMessageComposeViewController new];
+        [smsDialog setMessageComposeDelegate:self];
+    }
     
-    return [self canSendText:unused];
+    return smsDialog;
 }
 
-- (id)canSendText:(id)unused
+- (void)dealloc
 {
-    return NUMBOOL([MFMessageComposeViewController canSendText]);
+    RELEASE_TO_NIL(smsDialog);
+    [super dealloc];
 }
 
-- (id)canSendSubject:(id)unused
+#pragma mark Public API's
+
+- (void)setSubject:(id)value
 {
-    return NUMBOOL([MFMessageComposeViewController canSendSubject]);
+    ENSURE_SMS_SUPPORT
+    ENSURE_TYPE(value, NSString);
+    [[self smsDialog] setSubject:[TiUtils stringValue:value]];
 }
 
-- (id)canSendAttachments:(id)unused
+- (void)setMessageBody:(id)value
 {
-    return NUMBOOL([MFMessageComposeViewController canSendAttachments]);
+    ENSURE_SMS_SUPPORT
+    ENSURE_TYPE(value, NSString);
+    [[self smsDialog] setBody:[TiUtils stringValue:value]];
+}
+
+- (void)setBarColor:(id)value
+{
+    ENSURE_SMS_SUPPORT
+    ENSURE_TYPE(value, NSString);
+    [[[self smsDialog] navigationBar] setTintColor:[[TiUtils colorValue:value] _color]];
+}
+
+- (void)setTranslucent:(id)value
+{
+    ENSURE_SMS_SUPPORT
+    ENSURE_TYPE(value, NSNumber);
+    [[[self smsDialog] navigationBar] setTranslucent:[TiUtils boolValue:value def:YES]];
+}
+
+- (void)setToRecipients:(id)value
+{
+    ENSURE_SMS_SUPPORT
+    ENSURE_TYPE(value, NSArray);
+    [[self smsDialog] setRecipients:value];
+}
+
+- (void)addAttachments:(id)args
+{
+    ENSURE_SMS_SUPPORT
+    ENSURE_TYPE(args, NSArray);
+
+    for (id attachement in args) {
+        if (![attachement isKindOfClass:[TiBlob class]]) {
+            DebugLog(@"[ERROR] Ti.SMS: Cannot add attachment of type: %@", [attachement apiName]);
+        } else {
+            [[self smsDialog] addAttachmentData:[(TiBlob*)attachement data]
+                         typeIdentifier:@"public.data"
+                               filename:[(TiBlob*)attachement nativePath]];
+        }
+    }
 }
 
 - (void)open:(id)args
 {
-    // Ensure that the current device supports SMS
+    ENSURE_UI_THREAD(open, args);
+    ENSURE_TYPE_OR_NIL(args, NSDictionary);
+
     if (![MFMessageComposeViewController canSendText]) {
         if ([self _hasListeners:@"complete"]) {
             [self fireEvent:@"complete" withObject:@{
@@ -46,66 +100,11 @@
         return;
     }
     
-    // Ensure the correct thread and arguments
-    ENSURE_UI_THREAD(open, args);
-    ENSURE_TYPE_OR_NIL(args, NSDictionary);
-    
-    // Prepare the arguments
-    NSNumber *disableUserAttachments;
-    NSArray *toRecipients;
-    NSArray *attachements;
-    NSString *message;
-    NSString *subject;
-    NSString *barColor;
-    
-    // Validate the user-input
-    ENSURE_ARG_OR_NIL_FOR_KEY(toRecipients, args, @"toRecipients", NSArray);
-    ENSURE_ARG_OR_NIL_FOR_KEY(disableUserAttachments, args, @"disableUserAttachments", NSNumber);
-    ENSURE_ARG_OR_NIL_FOR_KEY(attachements, args, @"attachements", NSArray);
-    ENSURE_ARG_OR_NIL_FOR_KEY(message, args, @"messageBody", NSString);
-    ENSURE_ARG_OR_NIL_FOR_KEY(subject, args, @"subject", NSString);
-    ENSURE_ARG_OR_NIL_FOR_KEY(barColor, args, @"barColor", NSString);
-    
-    // Create the SMS dialog
-    MFMessageComposeViewController * composer = [MFMessageComposeViewController new];
-    [composer setMessageComposeDelegate:self];
-    
-    // Set the barColor
-    if (barColor != nil) {
-        [[composer navigationBar] setTintColor:[[TiUtils colorValue:barColor] _color]];
+    if ([TiUtils boolValue:[args valueForKey:@"disableUserAttachments"] def:NO] == YES) {
+        [[self smsDialog] disableUserAttachments];
     }
     
-    // Check if the user wants to disable attachments
-    if (disableUserAttachments != nil && [TiUtils boolValue:disableUserAttachments def:NO] == YES) {
-        [composer disableUserAttachments];
-    }
-    
-    // Set the attachments
-    if (attachements != nil) {
-        for (id attachement in attachements) {
-            if (![attachement isKindOfClass:[TiBlob class]]) {
-                DebugLog(@"[ERROR] Ti.SMS: Cannot add attachment of type: %@", [attachement apiName]);
-            } else {
-                [composer addAttachmentData:[(TiBlob*)attachement data]
-                             typeIdentifier:@"public.data"
-                                   filename:[(TiBlob*)attachement nativePath]];
-            }
-        }
-    }
-    
-    // Set the recipients
-    [composer setRecipients:toRecipients];
-    
-    // Set the subject
-    [composer setSubject:subject];
-    
-    // Set the message body
-    [composer setBody:message];
-    
-    // Show the SMS dialog
-    BOOL animated = [TiUtils boolValue:@"animated" properties:args def:YES];
-    [self retain];
-    [[TiApp app] showModalController:composer animated:animated];
+    [[TiApp app] showModalController:[self smsDialog] animated:[TiUtils boolValue:[args valueForKey:@"animated"] def:YES]];
 }
 
 #pragma mark Delegate 
@@ -113,6 +112,7 @@
 - (void)messageComposeViewController:(MFMessageComposeViewController *)composer didFinishWithResult:(MessageComposeResult)result
 {
     [[TiApp app] hideModalController:composer animated:YES];
+    RELEASE_TO_NIL(smsDialog);
     
     if ([self _hasListeners:@"complete"]) {
         [self fireEvent:@"complete" withObject:@{
