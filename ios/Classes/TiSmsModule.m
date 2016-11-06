@@ -1,6 +1,6 @@
 /**
  * Appcelerator Titanium Mobile
- * Copyright (c) 2010 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2010-2016 by Appcelerator, Inc. All Rights Reserved.
  */
 #import "TiSmsModule.h"
 #import "TiBase.h"
@@ -9,67 +9,49 @@
 
 @implementation TiSmsModule
 
-@synthesize smsProxy;
-
 #pragma mark Internal
 
-// this is generated for your module, please do not change it
--(id)moduleGUID
+- (id)moduleGUID
 {
 	return @"8b8759be-a92a-4c44-a6d2-3e08393bfc36";
 }
 
-// this is generated for your module, please do not change it
--(NSString*)moduleId
+- (NSString*)moduleId
 {
 	return @"ti.sms";
 }
 
 #pragma mark Lifecycle
 
--(void)startup
+- (void)startup
 {
-	// this method is called when the module is first loaded
-	// you *must* call the superclass
 	[super startup];
 	
-	NSLog(@"[INFO] %@ loaded",self);
-}
-
--(void)shutdown:(id)sender
-{
-	// this method is called when the module is being unloaded
-	// typically this is during shutdown. make sure you don't do too
-	// much processing here or the app will be quit forceably
-	
-	// you *must* call the superclass
-	[super shutdown:sender];
-}
-
-#pragma mark Cleanup 
-
--(void)dealloc
-{
-    [smsProxy release];
-	// release any resources that have been retained by the module
-	[super dealloc];
-}
-
-#pragma mark Internal Memory Management
-
--(void)didReceiveMemoryWarning:(NSNotification*)notification
-{
-	// optionally release any resources that can be dynamically
-	// reloaded once memory is available - such as caches
-	[super didReceiveMemoryWarning:notification];
+	NSLog(@"[DEBUG] %@ loaded",self);
 }
 
 #pragma Public APIs
 
--(TiUISMSDialogProxy *)createSMSDialog:(id)args {
-    RELEASE_TO_NIL(smsProxy);
-    smsProxy = [[TiUISMSDialogProxy alloc] init];
-    return smsProxy;
+- (id)isSupported:(id)unused
+{
+    DEPRECATED_REPLACED(@"SMS.isSupported", @"2.0.0", @"SMS.canSendtext");
+    
+    return [self canSendText:unused];
+}
+
+- (id)canSendText:(id)unused
+{
+    return NUMBOOL([MFMessageComposeViewController canSendText]);
+}
+
+- (id)canSendSubject:(id)unused
+{
+    return NUMBOOL([MFMessageComposeViewController canSendSubject]);
+}
+
+- (id)canSendAttachments:(id)unused
+{
+    return NUMBOOL([MFMessageComposeViewController canSendAttachments]);
 }
 
 @end
