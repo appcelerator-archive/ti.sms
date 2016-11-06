@@ -1,6 +1,6 @@
 /**
  * Appcelerator Titanium Mobile
- * Copyright (c) 2010 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2010-2016 by Appcelerator, Inc. All Rights Reserved.
  */
 #import "TiSmsSMSDialogProxy.h"
 
@@ -27,6 +27,7 @@ if (![MFMessageComposeViewController canSendText]) { \
 
 - (void)dealloc
 {
+    [smsDialog setDelegate:nil];
     RELEASE_TO_NIL(smsDialog);
     [super dealloc];
 }
@@ -104,7 +105,9 @@ if (![MFMessageComposeViewController canSendText]) { \
         [[self smsDialog] disableUserAttachments];
     }
     
-    [[TiApp app] showModalController:[self smsDialog] animated:[TiUtils boolValue:[args valueForKey:@"animated"] def:YES]];
+    TiThreadPerformOnMainThread(^{
+        [[TiApp app] showModalController:[self smsDialog] animated:[TiUtils boolValue:[args valueForKey:@"animated"] def:YES]];
+    }, NO);
 }
 
 #pragma mark Delegate 
